@@ -47,11 +47,11 @@ public class landing_nd_signupPage {
 		FileInputStream inputStream= new FileInputStream("./ExcelSheets/MyData.xlsx");
 		@SuppressWarnings("resource")
 		XSSFWorkbook wrkBook= new XSSFWorkbook(inputStream);
-		XSSFSheet mySheet2=wrkBook.getSheetAt(1);
+		XSSFSheet mySheet1=wrkBook.getSheetAt(0);
 		XSSFCell cellValueLogin;
-		cellValueLogin= mySheet2.getRow(1).getCell(3);
+		cellValueLogin= mySheet1.getRow(1).getCell(3);
 		enterEmailId.sendKeys(cellValueLogin.toString());
-		cellValueLogin= mySheet2.getRow(1).getCell(4);
+		cellValueLogin= mySheet1.getRow(1).getCell(4);
 		enterPassword.sendKeys(cellValueLogin.toString());
 		signInButton.click();
 		String title=driver.getTitle();

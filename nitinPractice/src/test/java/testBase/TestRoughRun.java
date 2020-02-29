@@ -1,8 +1,12 @@
 package testBase;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -87,8 +91,14 @@ public class TestRoughRun {
 	}
 	
 	@Test (priority=2)
-		public void enterEmailAddressandClickCreateAccount() {
-		Boolean emailEntered=onLandingPage.enterEmail("nitin.shukla5@gmail.com");
+		public void enterEmailAddressandClickCreateAccount() throws IOException {
+		FileInputStream inputStream= new FileInputStream("./ExcelSheets/MyData.xlsx");
+		@SuppressWarnings("resource")
+		XSSFWorkbook wrkBook= new XSSFWorkbook(inputStream);
+		XSSFSheet mySheet1=wrkBook.getSheetAt(0);
+		XSSFCell cellValueLogin;
+		cellValueLogin= mySheet1.getRow(1).getCell(3);
+		Boolean emailEntered=onLandingPage.enterEmail(cellValueLogin.toString());
 		Boolean createButtonClicked=onLandingPage.clickCreateButton();
 		Boolean success=emailEntered && createButtonClicked;
 		Assert.assertTrue(success);
