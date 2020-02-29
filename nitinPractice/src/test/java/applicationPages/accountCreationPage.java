@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.WebDriver;
@@ -58,7 +59,7 @@ public class accountCreationPage {
 	
 	@SuppressWarnings("resource")
 	public void enterYourInformation() throws Exception {
-		FileInputStream inputStream= new FileInputStream("C:\\NitinShuklaSelenium\\Workspace\\nitinPractice\\ExcelSheets\\MyData.xlsx");
+		FileInputStream inputStream= new FileInputStream("./ExcelSheets/MyData.xlsx");
 		XSSFWorkbook wrkBook= new XSSFWorkbook(inputStream);
 		XSSFSheet mySheet1= wrkBook.getSheetAt(0);
 		XSSFSheet mySheet2=wrkBook.getSheetAt(1);
@@ -116,7 +117,7 @@ public class accountCreationPage {
 	
 	
 	public void enterYourAddress() throws IOException {
-		FileInputStream inputStream= new FileInputStream("C:\\NitinShuklaSelenium\\Workspace\\nitinPractice\\ExcelSheets\\MyData.xlsx");
+		FileInputStream inputStream= new FileInputStream("./ExcelSheets/MyData.xlsx");
 		@SuppressWarnings("resource")
 		XSSFWorkbook wrkBook= new XSSFWorkbook(inputStream);
 		XSSFSheet mySheet2=wrkBook.getSheetAt(1);
@@ -159,11 +160,31 @@ public class accountCreationPage {
 		cellValue2=mySheet2.getRow(1).getCell(13);
 		addressAliasName.sendKeys(cellValue2.toString());
 		
-		//clicking on Register Finally
+		//clicking on Register button after all the information is filled
 		registerButton.click();
 		
 		
 		}
+	
+	
+	public void testingExcelReader() throws IOException {
+		FileInputStream inputStream= new FileInputStream("./ExcelSheets/MyData.xlsx");
+		@SuppressWarnings("resource")
+		XSSFWorkbook wrkBook= new XSSFWorkbook(inputStream);
+		XSSFSheet mySheet2=wrkBook.getSheetAt(0);
+		XSSFRow row = mySheet2.getRow(0);
+		int columncount=row.getLastCellNum();
+		System.out.println("The total number of columns in the excel is "+columncount);
+		int rowcount =mySheet2.getLastRowNum()+1;
+		System.out.println("The total number of rows in the excel is "+rowcount);
+		XSSFCell cellValue2;
+		
+		for (int column=0;column<columncount;column++)
+		{
+		cellValue2=mySheet2.getRow(1).getCell(column);
+		System.out.println(cellValue2.toString()+"||");
+		}
+	}
 	
 	
 	

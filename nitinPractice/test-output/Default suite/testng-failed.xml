@@ -5,8 +5,7 @@
     <classes>
       <class name="testBase.TestRoughRun">
         <methods>
-          <include name="enterDataInYourInformationSection"/>
-          <include name="enterEmailAddressandClickCreateAccount"/>
+          <include name="testingExcel"/>
         </methods>
       </class> <!-- testBase.TestRoughRun -->
     </classes>

@@ -1,5 +1,12 @@
 package applicationPages;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,27 +17,51 @@ public class landing_nd_signupPage {
 	
 	WebDriver driver;
 	String failed;
-	//WebDriverWait wait =new WebDriverWait(page1driver,20);
 	
 	
 	
-	//Objects on the Landing Page
+	//Objects on the Landing Page 
 	@FindBy(css="a.login") public WebElement signinbutton;
 	
-	//Objects on the Sign In Page
+	//Objects on the Landing page for Sign Up Scenarios
 	@FindBy(css="input#email_create") public WebElement emailAddress;
 	@FindBy(css="button#SubmitCreate") public WebElement createAccountButton;
 	
 	
+	//Objects on the landing page for the Login scenarios
+	@FindBy(css="input#email") public WebElement enterEmailId;
+	@FindBy(css="input#passwd") public WebElement enterPassword;
+	@FindBy(xpath="//a[starts-with(@title,'recover')]")public WebElement forgotPasswordLink;
+	@FindBy(css="button#SubmitLogin") public WebElement signInButton;
 	
 	
-	//Constructor for this page object
+	
+	//Default constructor for this page object
 	public landing_nd_signupPage(WebDriver page1driver){
 		this.driver =page1driver;
 	}
 	
+	public Boolean loginWithCredentials() throws IOException {
+		signinbutton.click();
+		Boolean userHasLoggedIn;
+		FileInputStream inputStream= new FileInputStream("./ExcelSheets/MyData.xlsx");
+		@SuppressWarnings("resource")
+		XSSFWorkbook wrkBook= new XSSFWorkbook(inputStream);
+		XSSFSheet mySheet2=wrkBook.getSheetAt(1);
+		XSSFCell cellValueLogin;
+		cellValueLogin= mySheet2.getRow(1).getCell(3);
+		enterEmailId.sendKeys(cellValueLogin.toString());
+		cellValueLogin= mySheet2.getRow(1).getCell(4);
+		enterPassword.sendKeys(cellValueLogin.toString());
+		signInButton.click();
+		String title=driver.getTitle();
+		userHasLoggedIn=title.contains("Store");
+		return userHasLoggedIn;
+		
+	}
+		
+	
 	public String clickOnSignIn() {
-		//wait.until(ExpectedConditions.visibilityOf(signinbutton));
 		Boolean signInButtonIsEnabled=signinbutton.isEnabled();
 		if(signInButtonIsEnabled)
 		{
